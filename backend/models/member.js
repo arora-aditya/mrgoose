@@ -11,6 +11,8 @@ let schema = mongoose.Schema({
   runSettersOnQuery: true
 });
 
+schema.index({'$**': 'text'});
+
 let Member = mongoose.model('Member', schema);
 
 module.exports = Member;

@@ -49,7 +49,6 @@ function getObjById(query, collection) {
           }
         }
       });
-
       db.close();
     });
   });
