@@ -1,80 +1,85 @@
-const mongo = require('mongodb').MongoClient;
+const mongodb = require('mongodb');
+const mongo = mongodb.MongoClient;
 
-const MONGO_URL = 'mongodb://localhost:27017/waterloop_internal';
+const MONGO_URL = "mongodb://Waterloop123:Waterloop123@goose-shard-00-00-osqmv.mongodb.net:27017,goose-shard-00-01-osqmv.mongodb.net:27017,goose-shard-00-02-osqmv.mongodb.net:27017/test?ssl=true&replicaSet=Goose-shard-0&authSource=admin";
 
 let mod = module.exports = {};
 
-function insertObj(obj, collection) {
+function insertObj(obj, collection){
   mongo.connect(MONGO_URL, function (err, db) {
-    if (!err) {
-      console.log("Connected correctly to db");
-      db.collection(collection).insertOne(obj, function (err, res) {
-        if (err) throw err;
-        console.log("Inserted 1 object to " + collection);
-      });
-      db.close();
-    }
-  });
-}
-
-function getAll(collection) {
-  let promise = new Promise((resolve, reject) => {
-    mongo.connect(MONGO_URL, function (err, db) {
       if (!err) {
         console.log("Connected correctly to db");
-        db.collection(collection).find({}).toArray(function (err, result) {
+        db.collection(collection).insertOne(obj, function(err, res) {
           if (err) throw err;
-          resolve(toObject(result));
+          console.log("Inserted 1 object to " + collection);
         });
         db.close();
+      } else {
+
+        console.log(err);
       }
-    });
   });
-  return promise;
 }
 
-function getObjById(query, collection) {
+function getAll(collection){
   let promise = new Promise((resolve, reject) => {
     mongo.connect(MONGO_URL, function (err, db) {
-      if (!err) {
-        console.log("Connected correctly to db");
-      }
-      db.collection(collection).find({}).toArray(function (err, result) {
-        if (err) throw err;
-        res = toObject(result);
-
-        for (var i = 0; i < res.length; i++) {
-          if (res[i]["_id"] == parseInt(query)) {
-            resolve(res[i]);
-          }
+        if (!err) {
+          console.log("Connected correctly to db");
+          db.collection(collection).find({}).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            resolve(result);
+          });
+          db.close();
         }
-      });
-      db.close();
     });
   });
   return promise;
 }
 
-module.createUser = (user) => {
+function getObjById(id, collection){
+  let promise = new Promise((resolve, reject) => {
+    mongo.connect(MONGO_URL, function (err, db) {
+        if (!err) {
+            console.log("Connected correctly to db");
+        }
+       let  mongoId = new mongodb.ObjectID(id);
+        db.collection(collection).find({
+             _id: mongoId 
+        }).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            resolve(result);
+        });
+
+        db.close();
+    });
+  });
+  return promise;
+}
+
+mod.createUser = (user) => {
   insertObj(user, "users");
 }
 
-module.createSubteam = (team) => {
-  insertObj(team, "team");
+mod.createSubteam = (team) => {
+  insertObj(team, "teams");
 }
 
-module.getUsers = () => {
+mod.getUsers = () => {
   return getAll("users");
 }
 
-module.getUserById = (id) => {
+mod.getUserById = (id) => {
   return getObjById(id, "users");
 }
 
-module.getSubteams = () => {
+mod.getSubteams = () => {
   return getAll("teams");
 }
 
-module.getSubteamById = (id) => {
+mod.getSubteamById = (id) => {
   return getObjById(id, "teams");
 }
+
