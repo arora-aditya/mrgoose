@@ -1,4 +1,4 @@
-const API_URL = 'localhost:8080';
+const API_URL = 'localhost:3000/api';
 
 const headers = {
   'Accept': 'application/json',
@@ -22,8 +22,8 @@ const fetcher = (url, options) =>
 export function get(endpoint, _options = {}) {
   const url = `${API_URL}/${endpoint}`;
   const options = {
-    'method': 'GET',
-    'headers': headers,
+    method: 'GET',
+    headers: headers,
     _options,
   };
   return fetcher(url, options);
@@ -32,10 +32,10 @@ export function get(endpoint, _options = {}) {
 export function put(endpoint, body, _options = {}) {
   const url = `${API_URL}/${endpoint}`;
   const options = {
-    'method': 'PUT',
-    'headers': headers,
-    'body': JSON.stringify(body),
-    ..._options
+    method: 'PUT',
+    headers: headers,
+    body: JSON.stringify(body),
+    ..._options,
   };
   return fetcher(url, options);
 }
@@ -43,9 +43,9 @@ export function put(endpoint, body, _options = {}) {
 export function post(endpoint, body, _options = {}) {
   const url = `${API_URL}/${endpoint}`;
   const options = {
-    'method': 'POST',
-    'headers': headers,
-    'body': JSON.stringify(body),
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(body),
     ..._options,
   };
   return fetcher(url, options);
@@ -54,9 +54,9 @@ export function post(endpoint, body, _options = {}) {
 export function remove(endpoint, body = {}, _options = {}) {
   const url = `${API_URL}/${endpoint}`;
   const options = {
-    'method': 'DELETE',
-    'headers': headers,
-    'body': JSON.stringify(body),
+    method: 'DELETE',
+    headers: headers,
+    body: JSON.stringify(body),
     ..._options,
   };
   return fetcher(url, options);

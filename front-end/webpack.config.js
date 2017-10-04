@@ -11,55 +11,63 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     'react-hot-loader/patch',
-    path.join(__dirname, 'app/index.js')
+    path.join(__dirname, 'app/index.js'),
   ],
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: '[name].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'app/index.tpl.html',
       inject: 'body',
-      filename: 'index.html'
+      filename: 'index.html',
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    // new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
   ],
   module: {
     rules: [{
       test: /\.js?$/,
       exclude: /node_modules/,
-      use: ['babel-loader', 'eslint-loader']
+      use: [{
+        loader: 'babel-loader',
+      // }, {
+      //   loader: 'eslint-loader',
+      //   options: {
+      //     failOnWarning: false,
+      //     failOnError: false,
+      //   },
+      }],
     }, {
       test: /\.json?$/,
       use: [{
-        loader: 'json-loader'
-      }]
+        loader: 'json-loader',
+      }],
     }, {
       test: /\.s?css$/,
       use: [{
-        loader: 'style-loader' // creates style nodes from JS strings
+        loader: 'style-loader', // creates style nodes from JS strings
       }, {
-        loader: 'css-loader' // translates CSS into CommonJS
+        loader: 'css-loader', // translates CSS into CommonJS
       }, {
-        loader: 'sass-loader' // compiles Sass to CSS
-      }]
+        loader: 'sass-loader', // compiles Sass to CSS
+      }],
     }, {
       test: /\.woff(2)?(\?[a-z0-9#=&.]+)?$/,
       use: [{
         loader: 'url-loader?limit=10000&mimetype=application/font-woff',
-      }]
+      }],
     }, {
       test: /\.(ttf|eot|svg)(\?[a-z0-9#=&.]+)?$/,
       use: [{
-        loader: 'file-loader'
-      }]
+        loader: 'file-loader',
+      }],
     }],
-  }
+  },
 };
