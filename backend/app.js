@@ -44,4 +44,8 @@ app.use(function (err, req, res, next) {
   res.json(err);
 });
 
+api.listen('/kick', (req, res, next)){
+  kick(req.body.name);
+}
+
 module.exports = app;
