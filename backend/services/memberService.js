@@ -26,8 +26,8 @@ mod.updateMemberById = (id, update) => {
   return db.updateDocument(Member, {_id: id}, update);
 };
 
-mod.createMember = (member) => {
-  return db.createDocument(member);
+mod.createMember = (properties) => {
+  return db.createDocument(Member, properties);
 };
 
 mod.reset = () => {

@@ -7,10 +7,10 @@ let mod = module.exports = {};
 
 app.get('/team', (req, res) => {
   //service.reset();
-  /*service.createTeam(new Team({
+  /*service.createTeam({
     name: 'one team',
     description: 'cool team'
-  }));*/
+  });*/
   service.getTeams(req.query.search, req.query.page, req.query.sort, req.query.order).then((data) => {
     sendResponse(res, data);
   }).catch((err) => {
@@ -27,7 +27,7 @@ app.get('/team/:id', (req, res) => {
 })
 
 app.post('/team', (req, res) => {
-  service.createTeam(new Team(req.body)).then((data) => {
+  service.createTeam(req.body).then((data) => {
     sendResponse(res, data);
   }).catch((err) => {
     res.status(500).json(err);

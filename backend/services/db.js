@@ -47,9 +47,9 @@ mod.updateDocument = (type, json, update) => {
   return promise;
 };
 
-mod.createDocument = (model) => {
+mod.createDocument = (type, properties) => {
   let promise = new Promise((resolve, reject) => {
-    model.save().then(resolve).catch(reject);
+    type.create(properties).then(resolve).catch(reject);
   });
   return promise;
 };

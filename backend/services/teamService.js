@@ -26,8 +26,8 @@ mod.updateTeamById = (id, update) => {
   return db.updateDocument(Team, {_id: id}, update);
 };
 
-mod.createTeam = (team) => {
-  return db.createDocument(team);
+mod.createTeam = (properties) => {
+  return db.createDocument(Member, properties);
 };
 
 mod.reset = () => {

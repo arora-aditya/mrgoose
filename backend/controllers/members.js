@@ -7,12 +7,12 @@ let mod = module.exports = {};
 
 app.get('/member', function (req, res) {
   //service.reset();
-  /*service.createMember(new Member({
-    username: '1234',
+  /*service.createMember({
+    username: 'cool',
     fullName: 'Test User',
-    email: 'test1@abc.ca',
-    bio: 'WOW',
-  }));*/
+    email: 'test@abc.ca',
+    bio: 'WOWO very cool',
+  });*/
   service.getMembers(req.query.search, req.query.page, req.query.sort, req.query.order).then((data) => {
     sendResponse(res, data);
   }).catch((err) => {
@@ -29,7 +29,7 @@ app.get('/member/:id', function (req, res) {
 });
 
 app.post('/member', function (req, res) {
-  service.createMember(new Member(req.body)).then((data) => {
+  service.createMember(req.body).then((data) => {
     sendResponse(res, data);
   }).catch((err) => {
     res.status(500).json(err);
