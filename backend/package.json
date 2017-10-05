@@ -1,11 +1,13 @@
 {
-  "name": "Waterloop Team Management Backend",
+  "name": "mrgoose",
+  "description": "Waterloop Team Management Backend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "body-parser": "~1.17.1",
     "cookie-parser": "^1.4.3",
     "debug": "~2.6.3",

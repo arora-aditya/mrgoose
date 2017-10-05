@@ -11,13 +11,13 @@ module.exports = {
   entry: [
     // Polyfills go here too, like babel-polyfill or whatwg-fetch
     'babel-polyfill',
-    path.join(__dirname, 'app/index.js')
+    path.join(__dirname, 'app/index.js'),
   ],
   // Where you want the output to go
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: '[name]-[hash].min.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     // webpack gives your modules and chunks ids to identify them. Webpack can consty the
@@ -31,7 +31,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'app/index.tpl.html',
       inject: 'body',
-      filename: 'index.html'
+      filename: 'index.html',
     }),
     // extracts the css from the js files and puts them on a separate .css file. this is for
     // performance and is used in prod environments. Styles load faster on their own .css
@@ -41,18 +41,18 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false,
-        screw_ie8: true
-      }
+        screw_ie8: true,
+      },
     }),
     // creates a stats.json
     new StatsPlugin('webpack.stats.json', {
       source: false,
-      modules: false
+      modules: false,
     }),
     // plugin for passing in data to the js, like what NODE_ENV we are in.
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    })
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
   ],
 
   module: {
@@ -60,10 +60,10 @@ module.exports = {
     rules: [{
       test: /\.js?$/,
       exclude: /node_modules/,
-      use: ['babel-loader', 'eslint-loader']
+      use: ['babel-loader', 'eslint-loader'],
     }, {
       test: /\.json?$/,
-      loader: 'json-loader'
+      loader: 'json-loader',
     }, {
       test: /\.scss$/,
       // we extract the styles into their own .css file instead of having
@@ -82,17 +82,17 @@ module.exports = {
                 },
               },
               {
-                loader: 'sass-loader'
+                loader: 'sass-loader',
               },
             ],
           }
-        ))
+        )),
     }, {
       test: /\.woff(2)?(\?[a-z0-9#=&.]+)?$/,
-      loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      loader: 'url-loader?limit=10000&mimetype=application/font-woff',
     }, {
       test: /\.(ttf|eot|svg)(\?[a-z0-9#=&.]+)?$/,
-      loader: 'file-loader'
-    }]
-  }
+      loader: 'file-loader',
+    }],
+  },
 };

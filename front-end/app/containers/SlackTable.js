@@ -1,46 +1,43 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import SlackTableRow from '../components/SlackTableRow';
+import * as SlackActions from '../actions/slack';
 
-export default class SlackTable extends Component {
-  constructor() {
-    super();
-    this.members = [{
-      '_id': '59d406ca56549426b127ea07',
-      'username': '1234',
-      'fullName': 'Test User',
-      'email': 'test1@abc.ca',
-      'bio': 'WOW',
-      '__v': 0,
-      'teams': [],
-      'joinDate': '2017-10-03T21:53:04.120Z'
-    },
-    {
-      '_id': '59d406ca56549426b127eeerro07',
-      'username': '1234',
-      'fullName': 'Test User',
-      'email': 'test1@abc.ca',
-      'bio': 'WOW',
-      '__v': 0,
-      'teams': [],
-      'joinDate': '2017-10-03T21:53:04.120Z'
-    }
-    ];
+class SlackTable extends Component {
+  componentWillMount() {
+    this.props.loadMembers();
   }
   render() {
     return (
       <div>
-      {this.members.map(member => <SlackTableRow
-        usr= {{
-          url: 'imgur.com',
-          Name: member.fullName,
-          Role: member.bio,
-        }}
-        api={{
-          kick: member._id,
-        }}
-       key = {member._id}/>)
+      {
+        this.props.members.map(member =>
+          <SlackTableRow
+            usr= {{
+              url: 'imgur.com',
+              Name: member.fullName,
+              Role: member.bio,
+            }}
+            api={{
+              kick: () => {
+                this.props.kickMember(member);
+              },
+            }}
+            key = {member._id}
+          />)
       }
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  members: state.slack.members,
+});
+
+const mapDispatchToProps = {
+  kickMember: SlackActions.kickMember,
+  loadMembers: SlackActions.loadMembers,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SlackTable);

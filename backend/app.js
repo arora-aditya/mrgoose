@@ -44,8 +44,24 @@ app.use(function (err, req, res, next) {
   res.json(err);
 });
 
-api.listen('/kick', (req, res, next)){
-  kick(req.body.name);
-}
+const { kick, fetchMembers } = require('./slack');
+
+api.delete('/kick', (req, res, next) => {
+  kick(req.body.id).then(() => {
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ OK: true });
+  }).catch(err => {
+    next(err);
+  });
+});
+
+api.get('/members', (req, res, next) => {
+  fetchMembers().then(members => {
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ members });
+  }).catch(err => {
+    throw err;
+  });
+});
 
 module.exports = app;
